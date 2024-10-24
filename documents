@@ -1,0 +1,28 @@
+
+from product.documents import ProductDocuments
+from elasticsearch_dsl.query import (
+            MultiMatch, 
+            Term, 
+            Terms, 
+            Wildcard, 
+            Prefix, 
+            Match, 
+            Bool,
+            Range,
+            Fuzzy,
+            Nested,
+            Exists,
+            MatchAll,
+            )
+q = "economy"
+
+
+# MultiMatch:
+query = MultiMatch(query=q, fields = ["title", "description"])
+search = ProductDocuments.search().query(query)
+response =  [hit.to_dict() for hit in search]
+
+# Good to have it
+# Search
+search = ProductDocuments.search().query("match", name="Economy")
+response =  [hit.to_dict() for hit in response]
