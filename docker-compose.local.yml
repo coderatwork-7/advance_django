@@ -2,7 +2,7 @@
 services:
 
   web0:
-    image: sockets
+    image: testing
     command: python manage.py runserver 0.0.0.0:8080
     build:
       context: .
@@ -24,6 +24,8 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env
+    ports:
+      - "5432:5432"
     networks:
       - app-web-net
 
@@ -36,7 +38,6 @@ services:
       - ./.env
     networks:
       - app-web-net
-
   # celery: 
   #   image: modrek
   #   command: watchdemo auto-restart --directory=. --pattern=*.py --recursive -- celery -A project worker --loglevel=info
@@ -74,8 +75,19 @@ services:
     networks:
       - app-web-net
 
+  elasticsearch:
+    image: elasticsearch:7.17.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
 volumes:
   postgres_data:
+  esdata:
 
 
 networks:

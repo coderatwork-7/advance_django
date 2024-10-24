@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework_simplejwt',
     "users", 
-    "channels"
+    "product",
+    "channels",
 
 ]
 
@@ -83,13 +84,24 @@ ASGI_APPLICATION = 'project.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': 'db',  # Service name in docker-compose
+#         'NAME': os.environ.get("POSTGRES_DB"),
+#         'USER': os.environ.get("POSTGRES_USER"),
+#         'PASSWORD': os.environ.get("POSTGRES_PASSWORD", ""),
+#         'PORT': '5432',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -240,70 +252,11 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']  # To request email access
 
 
 # separate logs file 
-""" 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        # Django core logs
-        'file_django': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'django.log'),
-            'formatter': 'verbose',
-        },
-        # StockPrice app logs
-        'file_stockprice': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'stockprice.log'),
-            'formatter': 'verbose',
-        },
-        # Celery tasks logs
-        'file_celery': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'celery.log'),
-            'formatter': 'verbose',
-        },
-        # Console output (optional, for debugging)
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-    },
-    'loggers': {
-        # Django core logger
-        'django': {
-            'handlers': ['file_django', 'console'],  # Write to 'django.log'
-            'level': 'INFO',
-            'propagate': True,
-        },
-        # StockPrice app logger
-        'stockprice': {
-            'handlers': ['file_stockprice', 'console'],  # Write to 'stockprice.log'
-            'level': 'INFO',  # Set to DEBUG for more detailed logs
-            'propagate': True,
-        },
-        # Celery tasks logger
-        'celery': {
-            'handlers': ['file_celery', 'console'],  # Write to 'celery.log'
-            'level': 'INFO',
-            'propagate': True,
-        },
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'elasticsearch:9200'  # Adjust this to match your Elasticsearch setup
     },
 }
-"""
 
 # GOOGLE SMTP SERVER
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
