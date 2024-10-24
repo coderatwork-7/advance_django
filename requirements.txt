@@ -16,6 +16,7 @@ requests
 phonenumbers
 ipython
 drf-yasg
+faker
 
 elasticsearch
 elasticsearch-dsl

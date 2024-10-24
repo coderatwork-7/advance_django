@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework_simplejwt',
+    'django_elasticsearch_dsl',
+
     "users", 
     "product",
     "channels",
@@ -254,7 +256,7 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']  # To request email access
 # separate logs file 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'elasticsearch:9200'  # Adjust this to match your Elasticsearch setup
+        'hosts': 'http://elasticsearch:9200'  # Adjust this to match your Elasticsearch setup
     },
 }
 

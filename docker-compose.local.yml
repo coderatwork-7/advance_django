@@ -82,8 +82,12 @@ services:
       - "9300:9300"
     environment:
       - discovery.type=single-node
+      # - xpack.security.enabled: true
+
     volumes:
       - esdata:/usr/share/elasticsearch/data
+    networks:
+      - app-web-net
 
 volumes:
   postgres_data:
