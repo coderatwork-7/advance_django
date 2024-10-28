@@ -14,7 +14,7 @@ from elasticsearch_dsl.query import (
             Exists,
             MatchAll,
             )
-q = "economy"
+query = "economy"
 
 
 # MultiMatch:
@@ -26,3 +26,40 @@ response =  [hit.to_dict() for hit in search]
 # Search
 search = ProductDocuments.search().query("match", name="Economy")
 response =  [hit.to_dict() for hit in response]
+
+
+
+# Search For Suggestion
+
+search = ProductDocuments.search()
+search = search.suggest('title_suggestions', query, completion={'field': 'title_suggest'})
+response = search.execute()
+    
+# Extract and return suggestions
+suggestions = [
+     option.text
+     for suggest in response.suggest.title_suggestions
+     for option in suggest.options
+]
+
+
+# For Getting more values instead of Suggestions
+query="nothing"
+search = ProductDocuments.search()
+search = search.query(MultiMatch(query=query, fields=['title', 'description']))
+search = search.suggest('title_suggest', query, completion={'field': 'title_suggest'})
+response = search.execute()
+
+
+documents = response.hits.hits  # Detailed document results
+suggestions = [
+    option.text
+    for suggest in response.suggest.title_suggest
+    for option in suggest.options
+]
+
+for d in documents:
+    doc = d['_source']
+    print(f"Title: {doc.title}, Description: {doc.description}")  # Adjust fields as necessary
+
+print("Suggestions:", suggestions)
