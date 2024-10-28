@@ -44,7 +44,7 @@ suggestions = [
 
 
 # For Getting more values instead of Suggestions
-query="nothing"
+query="about"
 search = ProductDocuments.search()
 search = search.query(MultiMatch(query=query, fields=['title', 'description']))
 search = search.suggest('title_suggest', query, completion={'field': 'title_suggest'})
