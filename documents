@@ -14,7 +14,7 @@ from elasticsearch_dsl.query import (
             Exists,
             MatchAll,
             )
-query = "economy"
+query = "about"
 
 
 # MultiMatch:
@@ -53,7 +53,7 @@ response = search.execute()
 
 documents = response.hits.hits  # Detailed document results
 suggestions = [
-    option.text
+    {"option": option.text, "title": response.suggest.title}
     for suggest in response.suggest.title_suggest
     for option in suggest.options
 ]
